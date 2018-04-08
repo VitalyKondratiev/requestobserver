@@ -1,0 +1,6 @@
+{
+    "require": {
+        "kint-php/kint": "^2.2",
+        "mustangostang/spyc": "^0.6.2"
+    }
+}
