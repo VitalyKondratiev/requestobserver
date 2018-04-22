@@ -26,14 +26,13 @@
             return ($dump);
         }
         $json_post_block = json_encode(getKintHtmlBlock('$_POST'));
-        echo $json_post_block;
         $ch = curl_init();  
         curl_setopt($ch,CURLOPT_URL, $node_address.'/?page='.$_GET['page'].'&secret_key='.$_GET['secret_key'].'&client_ip='.$_SERVER['REMOTE_ADDR']);
         curl_setopt($ch,CURLOPT_POST,true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array('POST' => $json_post_block)));
-        curl_exec($ch);
+        $curl_status = curl_exec($ch);
         curl_close($ch);
-        exit;
+        exit(($curl_status) ? 'success' : 'failure');
     }
 ?>
 <html>
