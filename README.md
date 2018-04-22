@@ -17,18 +17,20 @@ Start NodeJS part of this project
 ```bash
 npm run start
 ```
-For observing your POST data, launch webpage with GET parameter `?secret_key`, you can use any string as value this parameter.  
-In script, which you need observe, you can paste this PHP code:
+For observing your data, launch webpage with GET parameter `?secret_key`, you can use any string as value this parameter.  
+In script, which you need observe, you can create function as below, and use it `sendToObserver([your_data])` from your code.
 ```php
-  if (count($_POST) != 0) {
+  function sendToObserver($data) {
     $requestUrl = '[requestobserver_webpage]';
     $secret_key = '[your_secret_key]';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $requestUrl."?page=http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'&secret_key='.$secret_key);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($_POST));
-    curl_exec($ch);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array($data)));
+    $curl_status = curl_exec($ch);
     curl_close($ch);
+    return $curl_status;
   }
 ```
 

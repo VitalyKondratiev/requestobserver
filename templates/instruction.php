@@ -7,21 +7,26 @@
 </div>
 <h3>PHP код <small>на сервере</small></h3>
 <div>
-  Для отслеживания запросов, вставьте в ваш скрипт, в котором надо отследить запросы следующий ниже код,
-  заменив переменную <span class="label label-default">$secret_key</span> на ваш текущий секретный ключ.
+  Для отслеживания запросов, добавьте в ваш код функцию, наподобие примера ниже, заменив переменную
+  <span class="label label-default">$secret_key</span> на ваш текущий секретный ключ.
 </div>
 <pre class="php" style="margin: 10px;">
-  if (count($_POST) != 0) {
-    $requestUrl = "http://<?=$_SERVER[HTTP_HOST]?>/labs/requestobserver.php";
+  function sendToObserver($data) {
+    $requestUrl = '<?="http".(!empty($_SERVER['HTTPS'])?"s":"")."://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>';
     $secret_key = '[ваш_секретный_ключ]';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $requestUrl."?page=http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'&secret_key='.$secret_key);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($_POST));
-    curl_exec($ch);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query(array($data)));
+    $curl_status = curl_exec($ch);
     curl_close($ch);
+    return $curl_status;
   }
 </pre>
+<div>
+  Далее вы сможете использовать <span class="label label-default">sendToObserver([переменная])</span> для того, чтобы получить значения в веб-интерфейсе.
+</div>
 <h3 id="secret_more">Секретный ключ <small>и $secret_key</small></h3>
 <div>
   <p>Секретный ключ представляет из себя десятизначную строку, генерируемую на сервере.
