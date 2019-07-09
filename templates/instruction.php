@@ -12,8 +12,8 @@
 </div>
 <pre class="php" style="margin: 10px;">
   function sendToObserver($data) {
-    $requestUrl = '<?="http".(!empty($_SERVER['HTTPS'])?"s":"")."://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']?>';
-    $secret_key = '[ваш_секретный_ключ]';
+    $requestUrl = '<?="http".(!empty($_SERVER['HTTPS'])?"s":"")."://".$_SERVER['SERVER_NAME']?>';
+    $secret_key = '<?=(isset($_GET['secret_key'])) ? $_GET['secret_key'] : '[ваш_секретный_ключ]'?>';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $requestUrl."?page=http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]".'&secret_key='.$secret_key);
     curl_setopt($ch, CURLOPT_POST, true);

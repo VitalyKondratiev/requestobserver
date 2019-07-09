@@ -5,7 +5,7 @@ var url = require('url');
 var yaml = require("js-yaml");
 var fs = require('fs');
 
-var config = yaml.safeLoad(fs.readFileSync(__dirname + '\\config.yml', 'utf8'));
+var config = yaml.safeLoad(fs.readFileSync(__dirname + '/config.yml', 'utf8'));
 var _port = config.node_port;
 
 function getClientAddress(request) {
