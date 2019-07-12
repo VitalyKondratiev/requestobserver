@@ -34,6 +34,10 @@ $(document).ready(function () {
             '\r\nЭто обновит страницу, и очистит список запросов.');
     });
     $('#copySecret').on('click', function () {
+        var secretKey = document.location.search.replace('?','')
+            .split('&')
+            .filter(x => x.split('=')[0] == 'secret_key')[0]
+            .split('=')[1];
         var $copyInput = $("<input>");
         $("body").append($copyInput);
         $copyInput.val(secretKey).select();
