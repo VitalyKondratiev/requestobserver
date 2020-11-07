@@ -2,21 +2,14 @@
 Server with PHP and NodeJS 
 
 # Installation
-- Install NodeJS and PHP on your server
-- Change directory to root catalog of this project
-- Install NodeJS requirements (`npm install`)
-- Install Composer requirements (`composer install`)
+- Install Docker and Docker Compose on your server
+- Add host `requestobserver.local` to your host file (you can change in in `.env` file)
+- Launch `docker-compose up` in root directory of this project
 
 # Configuration
 For configurate this tool, you need change example values in `/config.yml` file
-- `node_protocol` - protocol for NodeJS script
-- `node_address` - domain for NodeJS script
 - `node_port` - socket.io port
 # Usage
-Start NodeJS part of this project 
-```bash
-npm run start
-```
 For observing your data, launch webpage with GET parameter `?secret_key`, you can use any string as value this parameter.  
 In script, which you need observe, you can create function as below, and use it `sendToObserver([your_data])` from your code.
 ```php
