@@ -1,5 +1,5 @@
 # Requirements
-Server with PHP and NodeJS 
+Server with Docker and Docker Compose
 
 # Installation
 - Install Docker and Docker Compose on your server
