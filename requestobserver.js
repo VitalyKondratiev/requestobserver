@@ -47,10 +47,8 @@ io = io.listen(http.createServer(function (request, response) {
       post = request.post;
       get = url.parse(request.url, true).query;
       result = { 'post': post, 'page': get.page, 'ip': get.client_ip, 'time': new Date() };
-      /*console.log('------------------------');
-      console.log(result);
-      console.log('------------------------');/**/
       data_to_send = encodeURIComponent(JSON.stringify(result));
+      //console.log(get.secret_key);
       io.sockets.to(get.secret_key).emit("result", data_to_send);
       response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
       response.end();
@@ -61,7 +59,7 @@ io = io.listen(http.createServer(function (request, response) {
   }
 }).listen(_port, function () { console.log('Start listening port: ' + _port); }));;
 
-var usersCountByKey = {}; //Количество пользователей на каждом секретном ключе
+var usersCountByKey = {};
 
 io.on('connection', function (socket) {
   get = url.parse(socket.handshake.headers.referer, true).query;

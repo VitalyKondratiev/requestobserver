@@ -1,3 +1,1 @@
-node_protocol: http
-node_address: example.com
 node_port: 3000

@@ -5,7 +5,7 @@
     require 'vendor/autoload.php';
     $new_secret_key = substr(md5(rand(0, 100000)), 0, 10);
     $config = Spyc::YAMLLoad('config.yml');
-    $node_address = "$config[node_protocol]://$config[node_address]:$config[node_port]";
+    $node_address = "http://172.45.0.6:$config[node_port]";
     if (isset($_GET['secret_key']))
         $secret_key = $_GET['secret_key'];
     else
@@ -103,7 +103,7 @@
 	</body>
 </html>
 <!-- Bootstrap -->
-<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<script src="node_modules/bootstrap/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css">
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Bootstrap End -->

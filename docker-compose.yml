@@ -1,0 +1,61 @@
+version: '2'
+services:   
+  nginx:
+    build: 
+      context: ./dockers/nginx
+      args:
+        - SITE_DOMAIN=${SITE_DOMAIN}
+    volumes_from:
+      - source
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+    ports:
+      - '${NGINX_PORT}:80'
+    restart: always
+    depends_on:
+      - php
+    networks:
+      requestobserver_net:
+        ipv4_address: 172.45.0.2
+  php:
+    build:
+      context: ./dockers/php
+    volumes_from:
+      - source
+    volumes:
+      - ./logs/php:/var/log/php
+    environment:
+      XDEBUG_CONFIG: "remote_host=172.45.0.1"
+    working_dir: /var/www/requestobserver
+    restart: always
+    networks:
+      requestobserver_net:
+        ipv4_address: 172.45.0.3
+  source:
+    image: alpine:latest
+    volumes:
+      - ./:/var/www/requestobserver
+      - /etc/localtime:/etc/localtime/:ro
+    networks:
+      requestobserver_net:
+        ipv4_address: 172.45.0.4
+  node:
+    build:
+      context: ./dockers/node
+    volumes:
+      - ./:/var/node/app
+    restart: always
+    depends_on:
+      - nginx
+    extra_hosts:
+      - "${SITE_DOMAIN}:172.45.0.2"
+    networks:
+      requestobserver_net:
+        ipv4_address: 172.45.0.6
+networks:
+  requestobserver_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.45.0.0/24
+          gateway: 172.45.0.1
