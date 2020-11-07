@@ -1,5 +1,12 @@
 $(document).ready(function () {
-    var socket = io(socket_address);
+    var options = [];
+    window.location.search.replace('?', '').split('&').forEach(function(item){
+        item = item.split('=');
+        options[item[0]] = item[1];
+    });
+    var socket = io(socket_address, {
+        'query': options
+    });
     socket.on('result', function (data) {
         response = JSON.parse(decodeURIComponent(data));
         var postHtml = JSON.parse(response.post.POST);

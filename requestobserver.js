@@ -48,7 +48,6 @@ io = io.listen(http.createServer(function (request, response) {
       get = url.parse(request.url, true).query;
       result = { 'post': post, 'page': get.page, 'ip': get.client_ip, 'time': new Date() };
       data_to_send = encodeURIComponent(JSON.stringify(result));
-      //console.log(get.secret_key);
       io.sockets.to(get.secret_key).emit("result", data_to_send);
       response.writeHead(200, "OK", { 'Content-Type': 'text/plain' });
       response.end();
@@ -62,7 +61,7 @@ io = io.listen(http.createServer(function (request, response) {
 var usersCountByKey = {};
 
 io.on('connection', function (socket) {
-  get = url.parse(socket.handshake.headers.referer, true).query;
+  get = socket.handshake.query;
   socket.secret_key = get.secret_key;
   socket.join(socket.secret_key);
   if (usersCountByKey[socket.secret_key] == undefined)
